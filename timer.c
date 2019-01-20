@@ -1,22 +1,22 @@
 
 #include "timer.h"
 #include <time.h>
+#include <stdio.h>
 
-static timer t;
+static timer lift_timer;
 
 
-void timer_start(int ms){
-    t.running = 1;
-    t.start_time = clock()*(CLOCKS_PER_SEC/1000);
-    t.run_time = ms;
+void timer_start(int seconds){
+    lift_timer.running = 1;
+    lift_timer.start_time = time(NULL); //Give seconds in time since 01.01.1970
+    lift_timer.run_time = seconds;
 }
 
 bool timer_running(){
-    int current_time_ms = clock()*(CLOCKS_PER_SEC/1000);
+    int current_time = time(NULL);
 
-    if (t.start_time + t.run_time < current_time_ms){
-        t.running = 0;
-    }
-    
-    return t.running;
+    if (lift_timer.start_time + lift_timer.run_time <= current_time){
+        lift_timer.running = 0;
+    }   
+    return lift_timer.running;
 }
