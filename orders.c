@@ -38,7 +38,10 @@ void orders_print() {
 	int cnt = 1;
 	printf("\nPrinter liste:\n");
 	order_t *ptr = head;
-	if (head == NULL) { printf("\tLISTEN ER TOM!"); return;}
+	if (head == NULL){
+        printf("\tLISTEN ER TOM!"); 
+        return;
+    }
 	while (ptr->next != NULL)
 	{
 			printf("\tNr: %d, \t floor:%d, \t dir:%d \n", cnt, ptr->floor, ptr->direction);
@@ -49,7 +52,9 @@ void orders_print() {
 }
 void orders_remove(int floor){
     printf("Fjerner %d \n", floor);
-    if (head == NULL) return;
+    if (head == NULL){
+        return;
+    }
     if (head->floor == floor && head->next->next == NULL){
         free(head->next);
         free(head);
@@ -108,15 +113,22 @@ void elevator_check_buttons(){
 }
 
 
-bool order_check_order(int floor, dir_t elev_dir){
-  if (!elev_dir) return 0;
-  if (head == NULL) {printf("Error elevator moving without orders\n"); return false;}
-  order_t *temp = head;
-  while(temp->next != NULL){
-    if (temp->floor == floor && (temp->direction == DIR_NEUTRAL || temp->direction == elev_dir)) return true;
-    temp = temp->next;
-  }
-  return false;
+bool order_check_if_executable_on_floor(int floor, dir_t elev_dir){ // sjekker om det finnes en ordre i en etasje
+    if (!elev_dir){
+        return 0;
+    }
+    if (head == NULL) {
+        printf("Error elevator moving without orders\n"); 
+        return false;
+    }
+    order_t *temp = head;
+    while(temp->next != NULL){
+        if (temp->floor == floor && (temp->direction == DIR_NEUTRAL || temp->direction == elev_dir)){
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
 }
 
 

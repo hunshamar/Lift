@@ -33,6 +33,6 @@ void orders_remove_all();
 
 void elevator_check_buttons();
 
-bool order_check_order(int floor, dir_t elev_dir);
+bool order_check_if_executable_on_floor(int floor, dir_t elev_dir);
 
 #endif
