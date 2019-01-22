@@ -4,7 +4,7 @@
 #include "orders.h"
 
 int main() {
-    // Initialize hardware
+    // Initialize hardware jeg endret her
     if (!elev_init()) {
         printf("Unable to initialize elevator hardware!\n");
         return 1;
@@ -16,7 +16,7 @@ int main() {
 
     int a = 1;
     while(1){
-    
+
 
         int b = elev_get_obstruction_signal();
         if (b == a){
@@ -44,7 +44,7 @@ int main() {
         while (timer_running()){
             printf("1\n");
         }
-        timer_start(1);     
+        timer_start(1);
         while (timer_running()){
 
             printf("0\n");
