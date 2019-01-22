@@ -85,34 +85,20 @@ void orders_remove_all(){
     }
 }
 
+
 //up = 1
 //down = -1
 //command = 0
 
 
 
-void elevator_check_buttons(){
-    for (int floor = 0; floor < 3; floor++){
-        if (elev_get_button_signal(BUTTON_CALL_UP, floor)){
-            orders_add(floor, DIR_UP);
-            elev_set_button_lamp(BUTTON_CALL_UP, floor, 1);
-        }
-    }
-    for (int floor = 1; floor < 4; floor++){
-        if (elev_get_button_signal(BUTTON_CALL_DOWN, floor)){
-            orders_add(floor, DIR_DOWN);
-            elev_set_button_lamp(BUTTON_CALL_DOWN, floor, 1);
-        }
-    }
-    for (int floor = 0; floor < 4; floor++){
-        if (elev_get_button_signal(BUTTON_COMMAND, floor)){
-            orders_add(floor, DIR_NEUTRAL);
-            elev_set_button_lamp(BUTTON_COMMAND, floor, 1);
-        }
-    }
-}
 
 
+/* TODO FIKSE LOGIKKEN HER */ 
+
+/*  
+    Denne funksjonen sjekker om den skal stoppe basert på alle bestillingene
+*/
 bool order_check_if_executable_on_floor(int floor, dir_t elev_dir){ // sjekker om det finnes en ordre i en etasje
     if (!elev_dir){
         return false;
@@ -123,12 +109,56 @@ bool order_check_if_executable_on_floor(int floor, dir_t elev_dir){ // sjekker o
     }
     order_t *order_node = head;
     while(order_node->next != NULL){
-        if (order_node->floor == floor && (order_node->direction == DIR_NEUTRAL || order_node->direction == elev_dir)){
+
+        printf("Order_node->floor: %d \nfloor: %d \norder_node->direction: %d \nelev_dir: %d", order_node->floor, floor, order_node->direction, elev_dir);
+
+        if (order_node->floor == floor && (order_node->direction == DIR_NEUTRAL || order_node->direction == elev_dir)){ // OR ingen bestillinger i etasjeneover
             return true;
         }
-        order_node = order_node->next;
+
+
+        if (order_node->floor == floor){
+            if (order_node->direction == DIR_NEUTRAL || order_node->direction == elev_dir){
+                return true;
+            }else{
+                int order_direction = order_node->direction;
+                int order_floor = order_node->floor;
+                order_node = head;
+                while(order_node->next != NULL){
+                    if (order_floor > order_node->floor){
+                        return false;
+                    }
+                    order_node = order_node->next;
+                }
+                return true;
+            }
+        }
     }
+    printf("RETURN FALSE!!\n");
     return false;
 }
 
+
+bool orders_is_empty(){
+    return (head == NULL);
+}
+
+int orders_find_dir(int floor, elev_motor_direction_t direction){
+    order_t *order_node = head;
+
+    if (order_node == NULL){
+        return 0;
+    }
+
+    while (order_node->next != NULL){
+        if (direction == 0){ 
+            return -(floor > order_node->floor) + (floor < order_node->floor);
+        }
+        if (floor > order_node->floor || floor < order_node->floor){
+            return direction;
+        }
+        order_node = order_node->next;
+    }
+    return (-1)*direction;
+}
 

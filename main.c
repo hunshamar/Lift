@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include "timer.h"
 #include "orders.h"
+#include "final_state_machine.h"
+#include "buttons.h"
+
+
 
 int main() {
     // Initialize hardware jeg endret her
@@ -12,20 +16,27 @@ int main() {
 
     printf("Press STOP button to stop elevator and exit program.\n");
 
-    elev_set_motor_direction(0);
 
-    int a = 1;
+    FSM_init();
+    
     while(1){
 
-
-        int b = elev_get_obstruction_signal();
-        if (b == a){
-            orders_print();
-            a = !a;
+        if(elev_get_stop_signal()){
+            elev_set_motor_direction(0);
+            break;
         }
 
-        elevator_check_buttons();
+        if (FSM_is_new_floor()){
+            print_orders();
+            FSM_execute_order();
+            printf("\n\nexecuted\n\n");
+        }
 
+        FSM_update_direction();
+
+        buttons_poll();
+
+        print_orders();
     }
 
     return 0;

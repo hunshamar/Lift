@@ -8,7 +8,7 @@ CFLAGS = -g -Wall
 LDFLAGS = -lcomedi -lm
 
 # list of sources
-ELEVSRC = elev.c io.c main.c timer.c orders.c final_state_machine.c
+ELEVSRC = elev.c io.c main.c timer.c orders.c final_state_machine.c buttons.c
 
 # program executable file name.
 TARGET = heis

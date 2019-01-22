@@ -30,9 +30,11 @@ void orders_add(int floor, dir_t direction);
 void orders_print();
 void orders_remove(int floor);
 void orders_remove_all();
+bool orders_is_empty();
 
-void elevator_check_buttons();
 
 bool order_check_if_executable_on_floor(int floor, dir_t elev_dir);
+
+int orders_find_dir(int floor, elev_motor_direction_t direction);
 
 #endif
