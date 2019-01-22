@@ -8,30 +8,30 @@ order_t* get_head(){
 }
 void orders_add(int floor, dir_t direction){
 
-    order_t * temp = head;
+    order_t * order_node = head;
 
     if (head == NULL){
         head = malloc(sizeof(order_t));
-        temp = head;
+        order_node = head;
     }else{
-        while (temp->next != NULL){
-            if (temp->floor == floor){
-                if (temp->direction != direction){
-                    temp->direction = DIR_NEUTRAL; //FLoor already has order, so the new must result in a stop order
+        while (order_node->next != NULL){
+            if (order_node->floor == floor){
+                if (order_node->direction != direction){
+                    order_node->direction = DIR_NEUTRAL; //FLoor already has order, so the new must result in a stop order
                 }
                 return;
             }
-            temp = temp->next;
+            order_node = order_node->next;
         }
     }
-    temp->floor = floor;
+    order_node->floor = floor;
     if (floor == 0 || floor == 3){
-        temp ->direction = DIR_NEUTRAL;
+        order_node ->direction = DIR_NEUTRAL;
     }else{
-        temp ->direction = direction;
+        order_node ->direction = direction;
     }
-    temp->next = malloc(sizeof(order_t));
-    temp->next->next = NULL;
+    order_node->next = malloc(sizeof(order_t));
+    order_node->next->next = NULL;
 }
 
 void orders_print() {
@@ -61,21 +61,21 @@ void orders_remove(int floor){
         head = NULL;
         return;
     }
-    order_t *temp = head;
-    order_t *temp_prev = NULL;
-    while(temp != NULL){
-        if (temp->floor == floor){
-            if (temp_prev == NULL){
-                head = temp->next;
+    order_t *order_node = head;
+    order_t *order_node_prev = NULL;
+    while(order_node != NULL){
+        if (order_node->floor == floor){
+            if (order_node_prev == NULL){
+                head = order_node->next;
             }
             else{
-                temp_prev->next = temp->next;
+                order_node_prev->next = order_node->next;
             }
-            free(temp);
+            free(order_node);
             return;
         }
-        temp_prev = temp;
-        temp = temp->next;
+        order_node_prev = order_node;
+        order_node = order_node->next;
     }
     orders_print();
 }
@@ -115,18 +115,18 @@ void elevator_check_buttons(){
 
 bool order_check_if_executable_on_floor(int floor, dir_t elev_dir){ // sjekker om det finnes en ordre i en etasje
     if (!elev_dir){
-        return 0;
+        return false;
     }
     if (head == NULL) {
         printf("Error elevator moving without orders\n"); 
         return false;
     }
-    order_t *temp = head;
-    while(temp->next != NULL){
-        if (temp->floor == floor && (temp->direction == DIR_NEUTRAL || temp->direction == elev_dir)){
+    order_t *order_node = head;
+    while(order_node->next != NULL){
+        if (order_node->floor == floor && (order_node->direction == DIR_NEUTRAL || order_node->direction == elev_dir)){
             return true;
         }
-        temp = temp->next;
+        order_node = order_node->next;
     }
     return false;
 }
