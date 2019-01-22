@@ -39,7 +39,7 @@ void orders_print() {
 	printf("\nPrinter liste:\n");
 	order_t *ptr = head;
 	if (head == NULL){
-        printf("\tLISTEN ER TOM!"); 
+        printf("\tLISTEN ER TOM!");
         return;
     }
 	while (ptr->next != NULL)
@@ -91,12 +91,7 @@ void orders_remove_all(){
 //command = 0
 
 
-
-
-
-/* TODO FIKSE LOGIKKEN HER */ 
-
-/*  
+/*
     Denne funksjonen sjekker om den skal stoppe basert på alle bestillingene
 */
 bool order_check_if_executable_on_floor(int floor, dir_t elev_dir){ // sjekker om det finnes en ordre i en etasje
@@ -104,32 +99,13 @@ bool order_check_if_executable_on_floor(int floor, dir_t elev_dir){ // sjekker o
         return false;
     }
     if (head == NULL) {
-        printf("Error elevator moving without orders\n"); 
+        printf("Error elevator moving without orders\n");
         return false;
     }
     order_t *order_node = head;
     while(order_node->next != NULL){
-
-        printf("Order_node->floor: %d \nfloor: %d \norder_node->direction: %d \nelev_dir: %d", order_node->floor, floor, order_node->direction, elev_dir);
-
-        if (order_node->floor == floor && (order_node->direction == DIR_NEUTRAL || order_node->direction == elev_dir)){ // OR ingen bestillinger i etasjeneover
-            return true;
-        }
-
-
         if (order_node->floor == floor){
-            if (order_node->direction == DIR_NEUTRAL || order_node->direction == elev_dir){
-                return true;
-            }else{
-                int order_direction = order_node->direction;
-                int order_floor = order_node->floor;
-                order_node = head;
-                while(order_node->next != NULL){
-                    if (order_floor > order_node->floor){
-                        return false;
-                    }
-                    order_node = order_node->next;
-                }
+            if (order_node->direction == DIR_NEUTRAL || order_node->direction == elev_dir || order_is_last_in_direction(order_node->floor, order_node->direction)){
                 return true;
             }
         }
@@ -138,6 +114,16 @@ bool order_check_if_executable_on_floor(int floor, dir_t elev_dir){ // sjekker o
     return false;
 }
 
+bool order_is_last_in_direction(int floor, int direction){
+    order_t *order_node = head;
+    while(order_node->next != NULL){
+        if (order_node->floor*direction > floor*direction){ // er dette den beste måten??
+            return true;
+        }
+        order_node = order_node->next;
+    }
+    return false;
+}
 
 bool orders_is_empty(){
     return (head == NULL);
@@ -151,7 +137,7 @@ int orders_find_dir(int floor, elev_motor_direction_t direction){
     }
 
     while (order_node->next != NULL){
-        if (direction == 0){ 
+        if (direction == 0){
             return -(floor > order_node->floor) + (floor < order_node->floor);
         }
         if (floor > order_node->floor || floor < order_node->floor){
@@ -161,4 +147,3 @@ int orders_find_dir(int floor, elev_motor_direction_t direction){
     }
     return (-1)*direction;
 }
-

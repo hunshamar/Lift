@@ -18,7 +18,7 @@ typedef enum direction{
 /* Linked list for order handling */
 typedef struct order{
     int floor;
-    dir_t direction; 
+    dir_t direction;
     struct order *next;
 }order_t;
 
@@ -31,7 +31,7 @@ void orders_print();
 void orders_remove(int floor);
 void orders_remove_all();
 bool orders_is_empty();
-
+bool order_is_last_in_direction(int floor, int direction);
 
 bool order_check_if_executable_on_floor(int floor, dir_t elev_dir);
 
