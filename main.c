@@ -1,4 +1,4 @@
-#include "elev.h"
+
 #include <stdio.h>
 #include "timer.h"
 #include "orders.h"
@@ -9,13 +9,14 @@
 
 int main() {
     // Initialize hardware jeg endret her
-    if (!elev_init()) {
-        printf("Unable to initialize elevator hardware!\n");
-        return 1;
-    }
 
     printf("Press STOP button to stop elevator and exit program.\n");
 
+    orders_append(1,-1);
+    orders_append(3,-1);
+    orders_print();
+
+    /*
 
     FSM_init();
     
@@ -67,7 +68,8 @@ int main() {
             break;
         }
     }
+    */
 
     return 0;
 }
-*/
+

@@ -5,23 +5,6 @@ static int a = 0;
 static int current_floor;
 static int current_direction;
 
-int FSM_find_dir(int floor, elev_motor_direction_t direction){
-    printf("before get head\n;");
-    order_t *order_node = get_head();
-    printf("after get head\n;");
-    while (order_node->next != NULL){
-        printf("current: %d", order_node->floor);
-        if (direction == 0){ 
-            return -(floor > order_node->floor) + (floor < order_node->floor);
-        }
-        if (floor > order_node->floor || floor < order_node->floor){
-            return direction;
-        }
-        order_node = order_node->next;
-    }
-    return (-1)*direction;
-}
-
 void FSM_init(){
     while(elev_get_floor_sensor_signal() == -1){
         elev_set_motor_direction(-1);
@@ -35,7 +18,7 @@ void FSM_init(){
 void FSM_execute_order(){
     current_floor = elev_get_floor_sensor_signal();
     printf("oppdatert, current direction: %d\n", current_direction);
-    if (order_check_if_executable_on_floor(current_floor, current_direction)){
+    if (order_executable_on_floor(current_floor, current_direction)){
         orders_remove(current_floor);            
         elev_set_motor_direction(0);
         timer_start(3);
