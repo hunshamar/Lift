@@ -175,7 +175,7 @@ bool order_executable_on_floor(int floor, dir_t current_dir)
         {
             return true;
         }
-        if (ord_dir == DIR_DOWN && !orders_below(floor))
+        if (ord_dir == DIR_DOWN && !orders_above(floor))
         {
             return true;
         }
