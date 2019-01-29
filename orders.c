@@ -4,7 +4,7 @@
 static order_t * head = NULL;
 
 
-order_t* get_head(){
+order_t* orders_get_head(){
     return head;
 }
 
@@ -188,29 +188,7 @@ bool order_executable_on_floor(int floor, dir_t current_dir)
 }
 
 
-int orders_find_dir(int floor, dir_t current_direction)  // f1oor = 1, current_direction = -1,,     ligger en ordre på floor 3 med dir = -1 
-{
-    order_t *ptr = head;
 
-    if (ptr == NULL)
-    {
-        return 0;
-    }
-
-    while (ptr != NULL)
-    {   
-        if (current_direction == 0)
-        {
-            return -(floor > ptr->floor) + (floor < ptr->floor);
-        }
-        if (floor*current_direction < ptr->floor*current_direction)
-        {
-            return current_direction;
-        }
-        ptr = ptr->next;
-    }
-    return -current_direction;
-}
 
 
 bool orders_is_empty(){

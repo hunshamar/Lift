@@ -22,21 +22,19 @@ int main() {
     
     while(1){
 
-        if(elev_get_stop_signal()){
-            elev_set_motor_direction(0);
-            break;
-        }
 
         
         if (FSM_is_on_floor()){
-            print_orders();
             FSM_execute_order();
         }
 
         FSM_update_direction();
-
         buttons_poll();
         print_orders();
+
+        if (elev_get_stop_signal()){
+            FSM_stop();
+        } 
     }
 
     return 0;

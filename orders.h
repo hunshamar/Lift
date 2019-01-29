@@ -24,16 +24,16 @@ typedef struct order{
 
 
 
-order_t* get_head();
+order_t* orders_get_head();
 
 /*Adds order to the end of the linked list */ 
 void orders_add(int floor, dir_t direction);
 void orders_remove(int floor);
+void orders_remove_all();
 bool orders_above(int floor);
 bool orders_below(int floor);
 bool order_on_floor(int floor); 
 bool order_executable_on_floor(int floor, dir_t current_direction);
-int orders_find_dir(int floor, dir_t current_direction);
 bool orders_is_empty();
 
 
