@@ -34,6 +34,7 @@ bool orders_below(int floor);
 bool order_on_floor(int floor); 
 bool order_executable_on_floor(int floor, dir_t current_direction);
 int orders_find_dir(int floor, dir_t current_direction);
+bool orders_is_empty();
 
 
 void orders_print();

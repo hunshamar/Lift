@@ -34,11 +34,14 @@ void orders_add(int floor, dir_t direction)
                     ptr->direction = DIR_NEUTRAL;
                 }
                 free(new_order); //we don't need the allocated space
+                
+
                 return;
             }
             if (ptr->next == 0)
             {
                 ptr->next = new_order; //Add to end of list
+
                 return;
             }
             ptr = ptr->next;
@@ -49,7 +52,7 @@ void orders_add(int floor, dir_t direction)
 void orders_print()
 {
 	int cnt = 1;
-	printf("\nPrinter liste:\n");
+	printf("\n\n\n--------------Printer liste---------------\n");
 	order_t *ptr = head;
 	if (head == NULL){
         printf("\tLISTEN ER TOM!");
@@ -61,7 +64,7 @@ void orders_print()
 			ptr = ptr->next;
 			cnt++;
 	}
-	printf("SLUTT\n\n");
+	printf("-----------------SLUTT--------------------\n\n");
 }    
 
 void orders_remove(int floor)
@@ -107,6 +110,7 @@ bool orders_above(int floor)
         {
             return true;
         }
+        ptr = ptr->next;
     }
     return false;
 }
@@ -161,9 +165,9 @@ dir_t order_get_direction(int floor)
 }
 
 
+
 bool order_executable_on_floor(int floor, dir_t current_dir)
 {   
-    printf("hier");
     if (order_on_floor(floor))
     {
         dir_t ord_dir = order_get_direction(floor);
@@ -183,7 +187,8 @@ bool order_executable_on_floor(int floor, dir_t current_dir)
     return false;
 }
 
-int orders_find_dir(int floor, dir_t current_direction)
+
+int orders_find_dir(int floor, dir_t current_direction)  // f1oor = 1, current_direction = -1,,     ligger en ordre på floor 3 med dir = -1 
 {
     order_t *ptr = head;
 
@@ -193,12 +198,12 @@ int orders_find_dir(int floor, dir_t current_direction)
     }
 
     while (ptr != NULL)
-    {
+    {   
         if (current_direction == 0)
         {
             return -(floor > ptr->floor) + (floor < ptr->floor);
         }
-        if (floor > ptr->floor || floor < ptr->floor)
+        if (floor*current_direction < ptr->floor*current_direction)
         {
             return current_direction;
         }
@@ -207,3 +212,7 @@ int orders_find_dir(int floor, dir_t current_direction)
     return -current_direction;
 }
 
+
+bool orders_is_empty(){
+    return (head == NULL);
+}

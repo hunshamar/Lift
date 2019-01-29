@@ -29,5 +29,11 @@ void buttons_deluminate(int floor){
         elev_set_button_lamp(BUTTON_CALL_DOWN, floor, 0);
     }
     elev_set_button_lamp(BUTTON_COMMAND, floor,0);
+}
 
+void buttons_deluminate_all(){
+    for (int floor = 0; floor < 4; floor++)
+    {
+        buttons_deluminate(floor);
+    }
 }

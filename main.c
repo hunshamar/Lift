@@ -9,16 +9,16 @@
 
 int main() {
     // Initialize hardware jeg endret her
+        if (!elev_init()) {
+        printf("Unable to initialize elevator hardware!\n");
+        return 1;
+    }
 
     printf("Press STOP button to stop elevator and exit program.\n");
 
-    orders_append(1,-1);
-    orders_append(3,-1);
-    orders_print();
-
-    /*
-
     FSM_init();
+
+
     
     while(1){
 
@@ -27,16 +27,15 @@ int main() {
             break;
         }
 
-        if (FSM_is_new_floor()){
+        
+        if (FSM_is_on_floor()){
             print_orders();
             FSM_execute_order();
-            printf("\n\nexecuted\n\n");
         }
 
         FSM_update_direction();
 
         buttons_poll();
-
         print_orders();
     }
 
@@ -44,6 +43,17 @@ int main() {
 }
 
 /*
+int main() {
+    // Initialize hardware
+    if (!elev_init()) {
+        printf("Unable to initialize elevator hardware!\n");
+        return 1;
+    }
+
+    printf("Press STOP button to stop elevator and exit program.\n");
+
+    elev_set_motor_direction(DIRN_UP);
+
     while (1) {
         // Change direction when we reach top/bottom floor
         if (elev_get_floor_sensor_signal() == N_FLOORS - 1) {
@@ -52,24 +62,12 @@ int main() {
             elev_set_motor_direction(DIRN_UP);
         }
 
-        timer_start(1);
-        while (timer_running()){
-            printf("1\n");
-        }
-        timer_start(1);
-        while (timer_running()){
-
-            printf("0\n");
-        }
-
         // Stop elevator and exit program if the stop button is pressed
         if (elev_get_stop_signal()) {
             elev_set_motor_direction(DIRN_STOP);
             break;
         }
     }
-    */
 
     return 0;
-}
-
+}*/

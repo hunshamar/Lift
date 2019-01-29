@@ -11,4 +11,4 @@ void FSM_init();
 void FSM_execute_order();
 void print_orders();
 void FSM_update_direction();
-bool FSM_is_new_floor();
+bool FSM_is_on_floor();
