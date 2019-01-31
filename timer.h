@@ -8,10 +8,21 @@ typedef struct timer{
     double run_time; // Run time in secs and microsecs
 }timer;
 
-double get_wall_time(void); //Returns seconds and miliseconds since 01.01.1970
+/**
+  Returns seconds and microseconds since 01.01.1970
 
+*/
+double get_wall_time(void); 
+
+/**
+  Starts the timer. 
+*/
 void timer_start(int seconds);
 
+/**
+  Returns 1 if timer is running
+  Returns 0 if timer is finished
+*/
 bool timer_running(void);
 
 

@@ -1,5 +1,5 @@
-#ifndef _ORDERS_
-#define _ORDERS_
+#ifndef _ORDERS_H_
+#define _ORDERS_H_
 
 #include <stdbool.h>
 #include <stdlib.h>

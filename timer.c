@@ -18,7 +18,7 @@ void timer_start(int seconds){
 
 bool timer_running(void){
     double current_time = get_wall_time();
-    if (lift_timer.start_time + lift_timer.run_time < current_time){
+    if (lift_timer.start_time + lift_timer.run_time < current_time){  
         return 0;
     }   
     return 1;

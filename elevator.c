@@ -1,11 +1,17 @@
 #include "elevator.h"
-#include "orders.h"
+
+#include <stdlib.h>
+#include <stdio.h>
+#include "timer.h"
+#include "buttons.h"
+
+
 
 //Static global variables, only accessible in this source file
 static int current_floor;
 static int current_direction;
 
-void elevator_init(){
+void elevator_init(void){
     while(elev_get_floor_sensor_signal() == -1){   
         elev_set_motor_direction(-1);
     }
@@ -15,9 +21,8 @@ void elevator_init(){
     current_direction = 0;
 }
 
-void elevator_execute_order(){
+void elevator_execute_order(void){
     current_floor = elev_get_floor_sensor_signal();
-    elev_set_floor_indicator(current_floor);
     if (order_is_executable_on_floor(current_floor, current_direction)){
         orders_remove(current_floor);            
         elev_set_motor_direction(0);
@@ -44,7 +49,7 @@ int elevator_find_direction(int floor, dir_t current_direction) {
     return -current_direction;
 }
 
-void elevator_update_direction() 
+void elevator_update_direction(void) 
 {
     if (elevator_stopped_between_floors() && !orders_is_empty()) {
         if (current_direction == -1 && orders_above(current_floor-1)){
@@ -64,15 +69,15 @@ void elevator_update_direction()
     }
 }
 
-bool elevator_stopped_between_floors(){
+bool elevator_stopped_between_floors(void){
     return (current_direction != elev_get_motor_direction() && elev_get_floor_sensor_signal() == -1);
 }
 
-bool elevator_is_on_floor(){
+bool elevator_is_on_floor(void){
     return elev_get_floor_sensor_signal() != -1;
 }
 
-void elevator_stop(){
+void elevator_stop(void){
     elev_set_motor_direction(0);
     orders_remove_all();
     buttons_deluminate_all();
@@ -89,7 +94,7 @@ void elevator_stop(){
 
 
 
-void elevator_print_status(){
+void elevator_print_status(void){
 	printf("\n############### STATUS ################\n");
     printf("\n\tCurrent floor: %d", current_floor);
     printf("\n\tCurrent direction: %d", current_direction);

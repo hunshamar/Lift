@@ -1,6 +1,10 @@
-#include "buttons.h"
 
-void buttons_poll(){
+
+
+#include "buttons.h"
+#include "orders.h"
+
+void buttons_poll(void){
     for (int floor = 0; floor < 3; floor++){
         if (elev_get_button_signal(BUTTON_CALL_UP, floor)){
             orders_add(floor, DIR_UP);
@@ -31,7 +35,7 @@ void buttons_deluminate(int floor){
     elev_set_button_lamp(BUTTON_COMMAND, floor,0);
 }
 
-void buttons_deluminate_all(){
+void buttons_deluminate_all(void){
     for (int floor = 0; floor < 4; floor++){
         buttons_deluminate(floor);
     }
