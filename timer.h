@@ -1,19 +1,19 @@
-#ifndef _TIMER_
-#define _TIMER_
+#ifndef _TIMER_H_
+#define _TIMER_H_
 
 #include <stdbool.h>
+
+/* TODO ENDRE TIMER TIL MS */
 
 typedef struct timer{
     int start_time; 
     int run_time;
-    int running; //1 if timer is running, 0 if not
 }timer;
 
 
 void timer_start(int seconds);
 
 bool timer_running();
-
 
 
 #endif

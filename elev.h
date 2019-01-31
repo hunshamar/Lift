@@ -120,5 +120,6 @@ void elev_set_button_lamp(elev_button_type_t button, int floor, int value);
 
 int elev_get_motor_direction();
 
+int elev_get_obstruction_signal_toggle();
 
 #endif // #ifndef __INCLUDE_DRIVER_H__

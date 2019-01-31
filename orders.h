@@ -33,7 +33,7 @@ void orders_remove_all();
 bool orders_above(int floor);
 bool orders_below(int floor);
 bool order_on_floor(int floor); 
-bool order_executable_on_floor(int floor, dir_t current_direction);
+bool order_is_executable_on_floor(int floor, dir_t current_direction);
 bool orders_is_empty();
 
 

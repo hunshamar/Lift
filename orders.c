@@ -51,20 +51,24 @@ void orders_add(int floor, dir_t direction)
 
 void orders_print()
 {
-	int cnt = 1;
-	printf("\n\n\n--------------Printer liste---------------\n");
-	order_t *ptr = head;
-	if (head == NULL){
-        printf("\tLISTEN ER TOM!");
+   	if (orders_is_empty())
+    {
+        printf("\n\tno orders\n");
         return;
     }
+
+	int cnt = 1;
+	printf("\n\n\t---------orders---------    \n");
+	order_t *ptr = head;
+
 	while (ptr != NULL)
 	{
-			printf("\tNr: %d, \t floor:%d, \t dir:%d \n", cnt, ptr->floor, ptr->direction);
+			printf("\tNr: %d:  floor:%d,  dir:%d \n", cnt, ptr->floor, ptr->direction);
 			ptr = ptr->next;
 			cnt++;
 	}
-	printf("-----------------SLUTT--------------------\n\n");
+  	printf("\t------------------------    \n");
+
 }    
 
 void orders_remove(int floor)
@@ -87,10 +91,7 @@ void orders_remove(int floor)
             return;
         }
         ptr = ptr->next;
-    }
-
-    printf("NO order exists for this floor\n");
-    
+    }    
 }
 
 void orders_remove_all()
@@ -142,13 +143,12 @@ bool order_on_floor(int floor)
         ptr = ptr->next;
     }
     return false;
-}
+}    
 
 dir_t order_get_direction(int floor)
 {
     if (!order_on_floor(floor))
     {
-        printf("ERROR NO ORDER ON FLOOR\n");
         return 0;
     }
 
@@ -165,8 +165,7 @@ dir_t order_get_direction(int floor)
 }
 
 
-
-bool order_executable_on_floor(int floor, dir_t current_dir)
+bool order_is_executable_on_floor(int floor, dir_t current_dir)
 {   
     if (order_on_floor(floor))
     {
