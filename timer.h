@@ -3,8 +3,6 @@
 
 #include <stdbool.h>
 
-/* TODO ENDRE TIMER TIL MS */
-
 typedef struct timer{
     double start_time; //Start time in secs and microsecs 
     double run_time; // Run time in secs and microsecs
