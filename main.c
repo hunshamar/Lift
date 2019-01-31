@@ -22,18 +22,15 @@ int main() {
         elevator_update_direction();
         buttons_poll();
         
-        if (elevator_is_on_floor())
-        {
+        if (elevator_is_on_floor()){
             elevator_execute_order();
         }
 
-        if (elev_get_stop_signal())
-        {
+        if (elev_get_stop_signal()){
             elevator_stop();
         } 
         
-        if (elev_get_obstruction_signal_toggle())
-        {
+        if (elev_get_obstruction_signal_toggle()){
             elevator_print_status();
         }
     }

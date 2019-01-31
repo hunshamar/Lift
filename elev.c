@@ -168,8 +168,7 @@ void elev_set_button_lamp(elev_button_type_t button, int floor, int value) {
 int static a = 0;
 int elev_get_obstruction_signal_toggle(){
     int b = elev_get_obstruction_signal();
-    if (b == a)
-    {
+    if (b == a){
         a = !a;
         return 1;
     }
