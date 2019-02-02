@@ -32,13 +32,17 @@ int main(void) {
         printf("Unable to initialize elevator hardware!\n");
         return 1;
     }
-    elevator_init();
 
     while(1){
         elevator_update_direction();
         buttons_poll();
 
         if (elevator_is_on_floor()){
+            
+            if (elev_get_floor_sensor_signal() < 0){
+                printf("DET GÅR IKKE!");
+            }
+
             elev_set_floor_indicator(elev_get_floor_sensor_signal());
             elevator_execute_order();
         }
@@ -49,5 +53,6 @@ int main(void) {
             elevator_print_status();
         }
     }
+
     return 0;
 }

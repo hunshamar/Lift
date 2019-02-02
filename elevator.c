@@ -12,11 +12,11 @@ static int current_floor;
 static int current_direction;
 
 void elevator_init(void){
+    buttons_deluminate_all();
     while(elev_get_floor_sensor_signal() == -1){   
         elev_set_motor_direction(-1);
     }
     elev_set_motor_direction(0);
-    buttons_deluminate_all();
     current_floor = elev_get_floor_sensor_signal();
     current_direction = 0;
 }
