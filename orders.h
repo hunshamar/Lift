@@ -15,12 +15,15 @@ typedef enum direction{
 }dir_t;
 
 
-/* Linked list for order handling */
+/**
+   Linked list for order handling 
+*/
 typedef struct order{
     int floor;
     dir_t direction;
     struct order *next;
 }order_t;
+
 
 
 
@@ -55,10 +58,18 @@ void orders_remove_all(void);
 
 
 /**
-   Returns true if there exists an order on given floor,
-   else it returns false.
+   Returns true if there exists an order on given floor.
+   Else returns false.
 */
 bool order_on_floor(int floor); 
+
+
+
+/**
+   Returns true if there are orders ahead of the floor, in the given current direction of the elevator.
+   Else return false. 
+*/
+bool orders_ahead(double floor, dir_t current_direction);
 
 
 

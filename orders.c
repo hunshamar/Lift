@@ -78,7 +78,7 @@ dir_t order_get_direction_of_order(int floor){
     return DIR_NOT_DEFINED; // No order for floor
 }
 
-bool orders_ahead(int floor, dir_t current_direction){
+bool orders_ahead(double floor, dir_t current_direction){
     order_t* ptr = head;
 
     while (ptr != NULL){   
@@ -87,6 +87,7 @@ bool orders_ahead(int floor, dir_t current_direction){
         }
         ptr = ptr->next;
     }
+    return false;
 }
 
 bool order_is_executable_on_floor(int floor, dir_t current_dir){   
@@ -94,13 +95,12 @@ bool order_is_executable_on_floor(int floor, dir_t current_dir){
     if (ord_dir == DIR_NOT_DEFINED){ // No order for the floor
         return false; 
     }
-
-    if (ord_dir == current_dir || ord_dir == DIR_NEUTRAL){ 
-        return true; 
+    else{
+        if (ord_dir == current_dir || ord_dir == DIR_NEUTRAL){ 
+            return true; 
+        }
+        return (!orders_ahead(floor, current_dir)); // Executable if no more orders ahead
     }
-    order_t* ptr = head;
-
-    return (!orders_ahead(floor, current_dir));
 }
 
 
@@ -124,3 +124,6 @@ void orders_print(){
 	}
   	printf("\t-----------------------    \n");
 } 
+
+
+

@@ -29,29 +29,22 @@ void elevator_init(void){
 }
 
 
-/* Olav kommenter denne ty */
 dir_t elevator_find_direction(double floor, dir_t current_direction) {
     if (orders_is_empty()) {
         return 0;
     }
-
-    order_t *ptr = orders_get_head();
-    
-    if (current_direction == 0){
-            return -(floor > ptr->floor) + (floor < ptr->floor);
+    if (current_direction == 0){ // List has been empty, now new order is placed. Return which direction to go
+        return -(floor > orders_get_head()->floor) + (floor < orders_get_head()->floor);
     }
-
-    while (ptr != NULL){   
-        
-        if (floor*current_direction < ptr->floor*current_direction){
-            return current_direction;
-        }
-        ptr = ptr->next;
+    if (orders_ahead(floor, current_direction)){ 
+        return current_direction; //If there are more orders ahead to be executed, continue in current_direction
     }
-    return -current_direction;
+    else{
+        return -current_direction; // If not turn around
+    }
 }
 
-void elevator_update_direction(void) {
+void elevator_update_direction(void){
     if (!timer_running()){ //Only give new direction to elevator when elevator still at floor with no door timer running
         elev_set_door_open_lamp(0);
         current_direction = elevator_find_direction(current_floor, current_direction);
