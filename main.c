@@ -14,9 +14,9 @@
     -fix curcly braces in code                                           [x]
     -More and better comments, remove comments that are not useful       [ ]  
     -header include guards                                               [x]
-    -add error handling ect. for functions, i.e. fault tolerance         [ ]
-    -Perhaps improve update_direction() function                         [ ]
-    -change all functions that takes no arguments to: void foo(void) ?   [x]
+    -add error handling ect. for functions, i.e. fault tolerance  ?      [ ]
+    -Perhaps improve update_direction() function                         [x]
+    -change all functions that takes no arguments to: void foo(void)     [x]
 
     about commenting:
 
@@ -44,8 +44,6 @@ int main(void) {
 
         
         if (elevator_is_on_floor()){
-            
-             // bruke floor_Read her pga. vet at den ikke ka nvære -1
             elevator_execute_order();
 
         }

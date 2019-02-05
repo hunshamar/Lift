@@ -66,6 +66,7 @@ void orders_remove_all(){
 }
 
 
+
 dir_t order_get_direction_of_order(int floor){
     order_t* ptr = head;
     while (ptr != NULL){
@@ -74,37 +75,38 @@ dir_t order_get_direction_of_order(int floor){
         }
         ptr = ptr->next;
     }
-    return 2;
+    return DIR_NOT_DEFINED; // No order for floor
 }
 
+bool orders_ahead(int floor, dir_t current_direction){
+    order_t* ptr = head;
+
+    while (ptr != NULL){   
+        if (floor*current_direction < ptr->floor*current_direction){
+            return true;
+        }
+        ptr = ptr->next;
+    }
+}
 
 bool order_is_executable_on_floor(int floor, dir_t current_dir){   
     int ord_dir = order_get_direction_of_order(floor);
-    if (ord_dir == 2){
+    if (ord_dir == DIR_NOT_DEFINED){ // No order for the floor
         return false; 
     }
-    else 
-    {  
-        if (ord_dir == current_dir || ord_dir == DIR_NEUTRAL){
-            return true; 
-        }
 
-        order_t* ptr = head;
-        while (ptr != NULL){
-            if ((ptr->floor < floor && ord_dir == DIR_DOWN) || (ptr->floor > floor && ord_dir == DIR_UP)){
-                return true;
-            }
-            ptr = ptr->next;
-        }
+    if (ord_dir == current_dir || ord_dir == DIR_NEUTRAL){ 
+        return true; 
     }
-    return false;
+    order_t* ptr = head;
+
+    return (!orders_ahead(floor, current_dir));
 }
 
 
 bool orders_is_empty(){
     return (head == 0);
 }
-
 
 
 void orders_print(){

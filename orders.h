@@ -10,7 +10,8 @@
 typedef enum direction{
     DIR_UP = 1,
     DIR_DOWN = -1,
-    DIR_NEUTRAL = 0
+    DIR_NEUTRAL = 0,
+    DIR_NOT_DEFINED = 2
 }dir_t;
 
 

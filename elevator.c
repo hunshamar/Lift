@@ -7,10 +7,16 @@
 
 
 
-//Static global variables, only accessible in this source file
-static double current_floor; 
+/* If elevator stopped between floors, the current_floor is updated with a .5 decimal value,
+   to keep track of which two floors the elevator is stopped between. */
+static double current_floor;
+
+/* Keeps track of direction of the elevator, is only set to zero when the elevator is idle. */ 
 static int current_direction;
+
+/* Updated with readings from the floor sensor signal. */
 static int floor_read;
+
 
 void elevator_init(void){
     buttons_deluminate_all();
@@ -22,27 +28,21 @@ void elevator_init(void){
     current_direction = 0;
 }
 
-void elevator_execute_order(void){
-    current_floor = floor_read;
-    elev_set_floor_indicator(current_floor);
-    if (order_is_executable_on_floor(current_floor, current_direction)){
-        orders_remove(current_floor);            
-        elev_set_motor_direction(0);
-        timer_start(3);
-        elev_set_door_open_lamp(1);
-        buttons_deluminate(current_floor);
-    }    
-}
 
-int elevator_find_direction(double floor, dir_t current_direction) {
+/* Olav kommenter denne ty */
+dir_t elevator_find_direction(double floor, dir_t current_direction) {
     if (orders_is_empty()) {
         return 0;
     }
+
     order_t *ptr = orders_get_head();
-    while (ptr != NULL){   
-        if (current_direction == 0){
+    
+    if (current_direction == 0){
             return -(floor > ptr->floor) + (floor < ptr->floor);
-        }
+    }
+
+    while (ptr != NULL){   
+        
         if (floor*current_direction < ptr->floor*current_direction){
             return current_direction;
         }
@@ -59,11 +59,21 @@ void elevator_update_direction(void) {
     }
 }
 
-bool elevator_stopped_between_floors(void){
-    return (current_direction != elev_get_motor_direction() && floor_read == -1);
+
+void elevator_execute_order(void){
+    current_floor = floor_read;
+    elev_set_floor_indicator(current_floor);
+    if (order_is_executable_on_floor(current_floor, current_direction)){
+        orders_remove(current_floor);            
+        elev_set_motor_direction(0);
+        timer_start(3);
+        elev_set_door_open_lamp(1);
+        buttons_deluminate(current_floor);
+    }    
 }
 
-int elevator_update_floor_read(){
+
+int elevator_update_floor_read(void){
     floor_read = elev_get_floor_sensor_signal();
     return floor_read;
 }
@@ -91,6 +101,9 @@ void elevator_stop(void){
     elev_set_stop_lamp(0);
 }
 
+bool elevator_stopped_between_floors(void){
+    return (current_direction != elev_get_motor_direction() && floor_read == -1);
+}
 
 
 void elevator_print_status(void){
