@@ -10,7 +10,6 @@ typedef struct timer{
 
 /**
   Returns seconds and microseconds since 01.01.1970
-
 */
 double get_wall_time(void); 
 
