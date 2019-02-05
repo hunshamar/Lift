@@ -28,23 +28,26 @@
 
 int main(void) {
 
+
     if (!elev_init()) {
         printf("Unable to initialize elevator hardware!\n");
         return 1;
     }
 
+    elevator_init();
+
+    
     while(1){
         elevator_update_direction();
         buttons_poll();
+        elevator_update_floor_read();
 
+        
         if (elevator_is_on_floor()){
             
-            if (elev_get_floor_sensor_signal() < 0){
-                printf("DET GÅR IKKE!");
-            }
-
-            elev_set_floor_indicator(elev_get_floor_sensor_signal());
+             // bruke floor_Read her pga. vet at den ikke ka nvære -1
             elevator_execute_order();
+
         }
         if (elev_get_stop_signal()){
             elevator_stop();

@@ -28,8 +28,6 @@ order_t* orders_get_head(void);
 void orders_add(int floor, dir_t direction);
 void orders_remove(int floor);
 void orders_remove_all(void);
-bool orders_above(int floor);
-bool orders_below(int floor);
 bool order_on_floor(int floor); 
 bool order_is_executable_on_floor(int floor, dir_t current_direction);
 bool orders_is_empty(void);

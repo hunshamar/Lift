@@ -18,14 +18,12 @@ void orders_add(int floor, dir_t direction){
         head = new_order;
     }
     else{
-        //Loop through list
         order_t *ptr = head;
-        while(ptr != NULL){ // Itereate to the end of list{
-            /* If order already exsists on floor*/
-            if (new_order->floor == ptr->floor){   
+        while(ptr != NULL){ // Itereate to the end of list
+            
+            if (new_order->floor == ptr->floor){ // If order already exsists on floor
                 if (new_order->direction != ptr->direction){ 
-                    /* If new order on floor, but with different direction we can set direction to NEUTRAL */
-                    ptr->direction = DIR_NEUTRAL;
+                    ptr->direction = DIR_NEUTRAL; //If new order on floor, but with different direction we can set direction to NEUTRAL 
                 }
                 free(new_order); //we don't need the allocated space
                 return;
@@ -40,29 +38,12 @@ void orders_add(int floor, dir_t direction){
 }
 
 
-void orders_print(){
-	int cnt = 1;
-	printf("\n\n\n--------------Printer liste---------------\n");
-	order_t *ptr = head;
-	if (orders_is_empty()){
-        printf("\tLISTEN ER TOM!");
-        return;
-    }
-	while (ptr != NULL){
-			printf("\tNr: %d, \t floor:%d, \t dir:%d \n", cnt, ptr->floor, ptr->direction);
-			ptr = ptr->next;
-			cnt++;
-	}
-	printf("-----------------SLUTT--------------------\n\n");
-}    
-
 void orders_remove(int floor){
     if (head->floor == floor){   
         free(head);
         head = head->next;
         return;
     }
-
     order_t* ptr = head;
 
     while (ptr->next != NULL){
@@ -72,10 +53,7 @@ void orders_remove(int floor){
             return;
         }
         ptr = ptr->next;
-    }
-
-    printf("NO order exists for this floor\n");
-    
+    }    
 }
 
 void orders_remove_all(){
@@ -84,28 +62,6 @@ void orders_remove_all(){
     }
 }
 
-bool orders_above(int floor){
-    order_t* ptr = head;
-    while (ptr != NULL){
-        if (ptr->floor > floor){
-            return true;
-        }
-        ptr = ptr->next;
-    }
-    return false;
-}
-
-
-bool orders_below(int floor){
-    order_t* ptr = head;
-    while (ptr != NULL){
-        if (ptr->floor < floor){
-            return true;
-        }
-        ptr = ptr->next;
-    }
-    return false;
-}
 
 bool order_on_floor(int floor){
     order_t* ptr = head;
@@ -126,8 +82,7 @@ dir_t order_get_direction(int floor){
 
     order_t* ptr = head;
     while (ptr != NULL){
-        if (ptr->floor == floor)
-        {
+        if (ptr->floor == floor){
             return ptr->direction;
         }
         ptr = ptr->next;
@@ -136,6 +91,27 @@ dir_t order_get_direction(int floor){
 }
 
 
+static bool orders_above(int floor){
+    order_t* ptr = head;
+    while (ptr != NULL){
+        if (ptr->floor > floor){
+            return true;
+        }
+        ptr = ptr->next;
+    }
+    return false;
+}
+
+static bool orders_below(int floor){
+    order_t* ptr = head;
+    while (ptr != NULL){
+        if (ptr->floor < floor){
+            return true;
+        }
+        ptr = ptr->next;
+    }
+    return false;
+}
 
 bool order_is_executable_on_floor(int floor, dir_t current_dir){   
     if (order_on_floor(floor)){
@@ -157,3 +133,21 @@ bool order_is_executable_on_floor(int floor, dir_t current_dir){
 bool orders_is_empty(){
     return (head == 0);
 }
+
+
+
+void orders_print(){
+   	if (orders_is_empty()){
+        printf("\n\tno orders\n");
+        return;
+    }
+	int cnt = 1;
+	printf("\n\n\t---------orders--------    \n");
+	order_t *ptr = head;
+	while (ptr != NULL){
+			printf("\tNr: %d:  floor:%d,  dir:%d \n", cnt, ptr->floor, ptr->direction);
+			ptr = ptr->next;
+			cnt++;
+	}
+  	printf("\t-----------------------    \n");
+} 

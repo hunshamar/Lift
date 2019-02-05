@@ -11,11 +11,6 @@
 /**
   
 */
-int elevator_find_dir(int floor, elev_motor_direction_t direction);
-
-/**
-  
-*/
 void elevator_init(void);
 
 /**
@@ -31,7 +26,7 @@ void elevator_print_status(void);
 /**
   
 */
-int elevator_find_direction(int floor, dir_t current_direction);
+int elevator_find_direction(double floor, dir_t current_direction);
 
 /**
   
@@ -52,5 +47,11 @@ void elevator_stop(void);
   
 */
 bool elevator_stopped_between_floors(void);
+
+/**
+
+ */
+int elevator_update_floor_read();
+
 
 #endif
