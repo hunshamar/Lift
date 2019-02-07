@@ -68,14 +68,6 @@ void elevator_stop(void);
 
 
 /**
-   Returns 1 if the elevator is at a stopped condition between floors.
-   Return 0 if not.
-*/
-bool elevator_stopped_between_floors(void);
-
-
-
-/**
    Sexy printout of the elevator variables and orders.
 */
 void elevator_print_status(void);

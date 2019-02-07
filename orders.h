@@ -30,7 +30,7 @@ typedef struct order{
 /**
     Return the pointer to the head of the order list.
 */
-order_t* orders_get_head(void);
+order_t* orders_get_head_order(void);
 
 
 

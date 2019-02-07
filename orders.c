@@ -4,7 +4,7 @@
 static order_t * head = NULL;
 
 
-order_t* orders_get_head(){
+order_t* orders_get_head_order(){
     return head;
 }
 
@@ -96,7 +96,7 @@ bool order_is_executable_on_floor(int floor, dir_t current_dir){
         return false; 
     }
     else{
-        if (ord_dir == current_dir || ord_dir == DIR_NEUTRAL){ 
+        if (ord_dir == current_dir || ord_dir == DIR_NEUTRAL){ // Executable if the direction of the order is same as elevator or neutral
             return true; 
         }
         return (!orders_ahead(floor, current_dir)); // Executable if no more orders ahead

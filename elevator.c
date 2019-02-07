@@ -21,20 +21,28 @@ static int floor_read;
 void elevator_init(void){
     buttons_deluminate_all();
     while(elevator_update_floor_read() == -1){   
-        elev_set_motor_direction(-1);
+        elev_set_motor_direction(DIR_DOWN);
     }
-    elev_set_motor_direction(0);
+    elev_set_motor_direction(DOR_NEUTRAL);
     current_floor = floor_read;
-    current_direction = 0;
+    current_direction = DIR_NEUTRAL;
 }
 
 
 dir_t elevator_find_direction(double floor, dir_t current_direction) {
     if (orders_is_empty()) {
-        return 0;
+        return DIR_NEUTRAL;
     }
     if (current_direction == 0){ // List has been empty, now new order is placed. Return which direction to go
-        return -(floor > orders_get_head()->floor) + (floor < orders_get_head()->floor);
+        if (orders_get_head_order()->floor < floor){
+            return DIR_DOWN
+        }
+        if (orders_get_head_order->floor > floor){
+            return DIR_UP
+        }
+        else{
+            return DIR_NEUTRAL
+        }
     }
     if (orders_ahead(floor, current_direction)){ 
         return current_direction; //If there are more orders ahead to be executed, continue in current_direction
@@ -45,7 +53,7 @@ dir_t elevator_find_direction(double floor, dir_t current_direction) {
 }
 
 void elevator_update_direction(void){
-    if (!timer_running()){ //Only give new direction to elevator when elevator still at floor with no door timer running
+    if (!timer_running()){ //Only give new direction to elevator when no door timer running
         elev_set_door_open_lamp(0);
         current_direction = elevator_find_direction(current_floor, current_direction);
         elev_set_motor_direction(current_direction);
@@ -58,7 +66,7 @@ void elevator_execute_order(void){
     elev_set_floor_indicator(current_floor);
     if (order_is_executable_on_floor(current_floor, current_direction)){
         orders_remove(current_floor);            
-        elev_set_motor_direction(0);
+        elev_set_motor_direction(DIR_NEUTRAL);
         timer_start(3);
         elev_set_door_open_lamp(1);
         buttons_deluminate(current_floor);
@@ -76,15 +84,15 @@ bool elevator_is_on_floor(void){
 }
 
 void elevator_stop(void){
-    elev_set_motor_direction(0);
+    elev_set_motor_direction(DIR_NEUTRAL);
     orders_remove_all();
     buttons_deluminate_all();
     elev_set_stop_lamp(1);
     if (elevator_is_on_floor()){
-        orders_add(current_floor, 0);
+        orders_add(current_floor, DIR_NEUTRAL);
         elev_set_door_open_lamp(1);
     }
-    else if((int)current_floor == current_floor){
+    else if((int)current_floor == current_floor){ // Keeps track of which floors the elevator is stopped between
         current_floor += current_direction/2.0;
     }
     
@@ -93,11 +101,6 @@ void elevator_stop(void){
     }
     elev_set_stop_lamp(0);
 }
-
-bool elevator_stopped_between_floors(void){
-    return (current_direction != elev_get_motor_direction() && floor_read == -1);
-}
-
 
 void elevator_print_status(void){
 	printf("\n############### STATUS ################\n");
