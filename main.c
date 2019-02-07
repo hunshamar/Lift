@@ -6,6 +6,7 @@
 #include "buttons.h"
 
 
+
 int main(void) {
 
     if (!elev_init()) {
@@ -21,7 +22,7 @@ int main(void) {
         elevator_update_floor_read();
 
         if (elevator_is_on_floor()){
-            elevator_execute_order();
+            elevator_execute_orders();
         }
         if (elev_get_stop_signal()){
             elevator_stop();

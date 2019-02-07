@@ -37,7 +37,7 @@ void elevator_update_direction(void);
   If there exists an executable order on the floor, the order is removed, the elevator stops,
    the timer starts, and the door opens for 3 seconds.
 */
-void elevator_execute_order(void);
+void elevator_execute_orders(void);
 
 
 

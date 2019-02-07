@@ -61,7 +61,7 @@ void elevator_update_direction(void){
 }
 
 
-void elevator_execute_order(void){
+void elevator_execute_orders(void){
     current_floor = floor_read;
     elev_set_floor_indicator(current_floor);
     if (order_is_executable_on_floor(current_floor, current_direction)){
