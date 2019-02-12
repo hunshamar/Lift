@@ -22,7 +22,7 @@ int elev_init(void);
 /**
   Motor direction for function elev_set_motor_direction().
 */
-typedef enum tag_elev_motor_dbbirection { 
+typedef enum tag_elev_motor_direction { 
     DIRN_DOWN = -1,
     DIRN_STOP = 0,
     DIRN_UP = 1
@@ -117,9 +117,5 @@ int elev_get_button_signal(elev_button_type_t button, int floor);
   @param value Non-zero value turns lamp on, 0 turns lamp off.
 */
 void elev_set_button_lamp(elev_button_type_t button, int floor, int value);
-
-int elev_get_motor_direction();
-
-int elev_get_obstruction_signal_toggle();
 
 #endif // #ifndef __INCLUDE_DRIVER_H__

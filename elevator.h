@@ -44,7 +44,7 @@ void elevator_execute_orders(void);
 /**
    Updates the floor_read variable with a reading from the floor indicator sensor.
  */
-int elevator_update_floor_read(void);
+void elevator_update_floor_read(void);
 
 
 

@@ -85,6 +85,7 @@ bool orders_ahead(double floor, dir_t current_direction){
         if (floor*current_direction < ptr->floor*current_direction){
             return true;
         }
+        
         ptr = ptr->next;
     }
     return false;

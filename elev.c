@@ -120,6 +120,7 @@ int elev_get_floor_sensor_signal(void) {
         return -1;
 }
 
+
 void elev_set_floor_indicator(int floor) {
     assert(floor >= 0);
     assert(floor < N_FLOORS);
@@ -163,14 +164,4 @@ void elev_set_button_lamp(elev_button_type_t button, int floor, int value) {
         io_set_bit(lamp_channel_matrix[floor][button]);
     else
         io_clear_bit(lamp_channel_matrix[floor][button]);
-}
-
-int static a = 0;
-int elev_get_obstruction_signal_toggle(){
-    int b = elev_get_obstruction_signal();
-    if (b == a){
-        a = !a;
-        return 1;
-    }
-    return 0;
 }
