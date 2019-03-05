@@ -12,20 +12,14 @@
   Deluminates all buttons.
   Positions the elevator at nearest floor below the initial position.
   Sets starting parameters for the elevator.
+  Returns 1 if not able to initialize elevator hardware
 */
-void elevator_init(void);
+int elevator_init(void);
 
 
 
 /**
-   Logic to calculate which direction the elevator is to go.
-*/
-dir_t elevator_find_direction(double floor, dir_t current_direction);
-
-
-
-/**
-   Feeds updated direction to the elevator, starting the motor and if necessary closing the door. 
+   Update direction and feed to the elevator, starting the motor and if necessary closing the door. 
 */
 void elevator_update_direction(void);
 
@@ -68,11 +62,8 @@ void elevator_stop(void);
 
 
 /**
-   Sexy printout of the elevator variables and orders.
+   Sexy printout of elevator states and orders
 */
 void elevator_print_status(void);
-
-
-
 
 #endif

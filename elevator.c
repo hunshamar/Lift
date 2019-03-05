@@ -18,7 +18,12 @@ static int current_direction;
 static int floor_read;
 
 
-void elevator_init(void){
+int elevator_init(void){
+
+    if (!elev_init()) {
+        return 0;
+    }
+
     buttons_deluminate_all();
 
     do{
@@ -30,10 +35,11 @@ void elevator_init(void){
     elev_set_motor_direction(DIRN_STOP);
     current_floor = floor_read;
     current_direction = DIRN_STOP;
+    return 1;
 }
 
 
-dir_t elevator_find_direction(double floor, dir_t current_direction) {
+static dir_t elevator_find_direction(double floor, dir_t current_direction) {
     if (orders_is_empty()) {
         return DIR_NEUTRAL;
     }
@@ -74,6 +80,7 @@ void elevator_execute_orders(void){
         timer_start(3);
         elev_set_door_open_lamp(1);
         buttons_deluminate(current_floor);
+        elevator_print_status();
     }    
 }
 
@@ -105,19 +112,11 @@ void elevator_stop(void){
     elev_set_stop_lamp(0);
 }
 
+
 void elevator_print_status(void){
 	printf("\n############### STATUS ################\n");
-    printf("\n\tCurrent floor: %f", current_floor);
+    printf("\n\tCurrent floor: %.1f", current_floor);
     printf("\n\tCurrent direction: %d", current_direction);
     orders_print();
 	printf("\n################# END #################\n\n\n\n");
-}
-
-int elev_get_obstruction_signal_toggle(){
-    int b = elev_get_obstruction_signal();
-    if (b == a){
-        a = !a;
-        return 1;
-    }
-    return 0;
 }

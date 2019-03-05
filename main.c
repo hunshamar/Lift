@@ -9,12 +9,13 @@
 
 int main(void) {
 
-    if (!elev_init()) {
-        printf("Unable to initialize elevator hardware!\n");
+    if (!elevator_init()){
+        printf("Unable to initialize elevator hardware! \n");
         return 1;
     }
 
-    elevator_init();
+    int a = elev_get_obstruction_signal();
+    int b;
 
     while(1){
         elevator_update_direction();
@@ -27,8 +28,11 @@ int main(void) {
         if (elev_get_stop_signal()){
             elevator_stop();
         } 
-        if (elev_get_obstruction_signal_toggle()){
-            elevator_print_status();
+
+        b = elev_get_obstruction_signal(); 
+        if (b == a){
+            elevator_print_status(); //When obstruction toggles
+            a = !a;
         }
     }
     return 0;

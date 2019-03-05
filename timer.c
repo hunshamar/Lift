@@ -5,7 +5,7 @@
 
 static timer lift_timer;
 
-double get_wall_time(void){
+static double get_wall_time(void){ //  Returns seconds and microseconds since 01.01.1970
     struct timeval time; 
     gettimeofday(&time, NULL);
     return (double)time.tv_sec + (double)time.tv_usec * .000001; 
