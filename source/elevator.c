@@ -118,5 +118,5 @@ void elevator_print_status(void){
     printf("\n\tCurrent floor: %.1f", current_floor);
     printf("\n\tCurrent direction: %d", current_direction);
     orders_print();
-	printf("\n################# END #################\n\n\n\n");
+	printf("\n#######################################\n\n\n\n");
 }

@@ -1,7 +1,5 @@
 
 #include <stdio.h>
-
-#include "timer.h"
 #include "elevator.h"
 #include "buttons.h"
 
